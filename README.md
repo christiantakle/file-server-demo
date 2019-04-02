@@ -80,15 +80,7 @@ code:
 
 ```haskell
 #!/usr/bin/env stack
-{- stack
-    --resolver lts-6.11
-    --install-ghc
-    runghc
-    --package shakespeare
-    --package wai-app-static
-    --package wai-extra
-    --package warp
- -}
+{- stack script --resolver lts-13.15 -}
 ```
 
 With this header, we've made our file executable from the shell. If
@@ -98,16 +90,14 @@ first line is a standard
 that, we have a comment that provides Stack with the relevant command
 line options. These options tell it to:
 
-* Use the Haskell Long Term Support (LTS) 6.11 package set. From now
+* Use the Haskell Long Term Support (LTS) 13.15 package set. From now
   through the rest of time, you'll be running against the same set of
   packages, so no worries about your code bitrotting!
-* Install GHC, the Glasgow Haskell Compiler. LTS 6.11 indicates what
-  version of GHC is needed (GHC 7.10.3). Once again: no bitrot
+* Install GHC, the Glasgow Haskell Compiler. LTS 13.15 indicates what
+  version of GHC is needed (GHC 8.6.4). Once again: no bitrot
   concerns!
-* `runghc` says we'd like to run a script with GHC
-* The rest of the lines specify which Haskell library packages we
-  depend on. You can see a full list of available libraries in LTS
-  6.11 [on the Stackage server](https://www.stackage.org/lts-6.11)
+* `stack script` automatically resolve the Haskell library packages we depend on. You can see a full list of available libraries in LTS
+  13.15 [on the Stackage server](https://www.stackage.org/lts-13.15)
 
 For more information on Stack's script interpreter support, see
 [the Stack user guide](https://docs.haskellstack.org/en/stable/GUIDE/#script-interpreter).
@@ -130,9 +120,10 @@ main = do
     case args of
         ["sanity"] -> putStrLn "Sanity check passed, ready to roll!"
         [] -> do
-            putStrLn "Launching application"
+            let port = 8080
+            putStrLn ("Launching application on port: " ++ show port)
             -- Run our application (defined below) on port 8080
-            run 8080 app
+            run port app
         _ -> error $ "Unknown arguments: " ++ show args
 ```
 

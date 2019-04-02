@@ -1,20 +1,12 @@
 #!/usr/bin/env stack
-{- stack
-    --resolver lts-6.11
-    --install-ghc
-    runghc
-    --package shakespeare
-    --package wai-app-static
-    --package wai-extra
-    --package warp
- -}
+{- stack script --resolver lts-13.15 -}
 
 -- The code above is used for Haskell Stack's script interpreter
 -- feature. For more information, see:
 -- https://docs.haskellstack.org/en/stable/GUIDE/#script-interpreter
 --
 -- Note how we explicitly list an LTS Haskell snapshot
--- (https://www.stackage.org/lts-6.11) to ensure reproducibility. We
+-- (https://www.stackage.org/lts-13.15) to ensure reproducibility. We
 -- then state which packages need to be present to run this code.
 
 -- Enable the OverloadedStrings extension, a commonly used feature.
@@ -52,9 +44,10 @@ main = do
     case args of
         ["sanity"] -> putStrLn "Sanity check passed, ready to roll!"
         [] -> do
-            putStrLn "Launching application"
+            let port = 8080
+            putStrLn ("Launching application on port: " ++ show port)
             -- Run our application (defined below) on port 8080
-            run 8080 app
+            run port app
         _ -> error $ "Unknown arguments: " ++ show args
 
 -- | Our main application
